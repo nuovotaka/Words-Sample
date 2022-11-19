@@ -33,7 +33,7 @@ export default function Home() {
     <div className={styles.container}>
       <ToastContainer />
       <form className={styles.form} onSubmit={submitForm}>
-        <h1 className={styles.title}>React Out To Us</h1>
+        <h1 className={styles.title}>Everyone's Words</h1>
         <div>
           <label htmlFor="words">Words</label>
           <input
@@ -46,13 +46,13 @@ export default function Home() {
             required
           />
         </div>
-        <div className={styles.inputs}>
+        <div>
           <div>
-            <label htmlFor="Transwords">翻訳後のテキスト</label>
+            <label htmlFor="Transwords">Trans Words</label>
             <input
               type="text"
               name="transwords"
-              placeholder="単語"
+              placeholder="言葉"
               value={transwords}
               onChange={(e) => setTranswords(e.target.value)}
               required
@@ -60,7 +60,7 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <label htmlFor="editedperson">editedperson</label>
+          <label htmlFor="editedperson">Edited Person</label>
           <input
             type="text"
             name="editedperson"
