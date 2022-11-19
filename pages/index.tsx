@@ -19,13 +19,19 @@ export default function Home() {
 
   const data = { Words: words, Transwords: transwords, EditedPerson: editedperson}
 
-  // Form submit handler
+  // Form submit addform
   const submitForm = async () => {
-
-    if (!active) {
-      axios.post(`/api/submit-form`, data)
-      setActive(true)
+    try {
+      if (!active) {
+        axios.post(`/api/submit-form`, data)
+        setActive(true)
+      }
+      toast.success('Success',{autoClose:2000})
+    } catch (error) {
+      toast.error('Error',{autoClose:2000})
+      console.log(error)
     }
+
   }
 
   return (
