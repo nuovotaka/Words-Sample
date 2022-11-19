@@ -10,17 +10,16 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
   // Input states
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [purpose, setPurpose] = useState('');
-  const [message, setMessage] = useState('');
+  const [words, setWords] = useState('');
+  const [transwords, setTranswords] = useState('');
+  const [editedperson, setEditedperson] = useState('');
 
   // Form submit handler
   const submitForm = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3000/api/submit-form', {
+    const res = await fetch('/api/submit-form', {
       method: 'POST',
-      body: JSON.stringify({ name, email, purpose, message }),
+      body: JSON.stringify({ words, transwords, editedperson }),
     });
     // Success if status code is 201
     if (res.status === 201) {
@@ -36,58 +35,40 @@ export default function Home() {
       <form className={styles.form} onSubmit={submitForm}>
         <h1 className={styles.title}>React Out To Us</h1>
         <div>
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="words">Words</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            placeholder="John Doe"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            id="words"
+            name="words"
+            placeholder="Words"
+            value={words}
+            onChange={(e) => setWords(e.target.value)}
             required
           />
         </div>
         <div className={styles.inputs}>
           <div>
-            <label htmlFor="email">E-Mail Address</label>
+            <label htmlFor="Transwords">翻訳後のテキスト</label>
             <input
-              type="email"
-              name="email"
-              placeholder="johndoe@example.io"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              name="transwords"
+              placeholder="単語"
+              value={transwords}
+              onChange={(e) => setTranswords(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label htmlFor="purpose">Purpose</label>
-            <select
-              name="purpose"
-              id="purpose"
-              value={purpose}
-              onChange={(e) => setPurpose(e.target.value)}
-            >
-              <option value="" disabled >
-                Select one
-              </option>
-              <option value="Web Development">Web Development</option>
-              <option value="App Development">App Development</option>
-              <option value="Query / Question">Query / Question</option>
-              <option value="Feedback / Message">Feedback / Message</option>
-            </select>
-          </div>
         </div>
         <div>
-          <label htmlFor="message">Message</label>
-          <textarea
-            name="message"
-            id="message"
-            rows={5}
-            placeholder="Hi there!"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+          <label htmlFor="editedperson">editedperson</label>
+          <input
+            type="text"
+            name="editedperson"
+            placeholder="Jon Cooper"
+            value={editedperson}
+            onChange={(e) => setEditedperson(e.target.value)}
             required
-          ></textarea>
+          />
         </div>
         <button className={styles.btn} type="submit">
           Submit

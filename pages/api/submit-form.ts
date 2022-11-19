@@ -13,34 +13,35 @@ export default async function handler(req: { method: string; body: string; }, re
       .json({ message: `${req.method} requests are not allowed` });
   }
   try {
-    const { name, email, purpose, message } = JSON.parse(req.body);
+    const { words, transwords, editedperson } = JSON.parse(req.body);
     await client.pages.create({
       parent: {
         database_id: DATABASE_ID,
       },
       properties: {
-        Name: {
+        Words: {
           title: [
             {
               text: {
-                content: name,
+                content: words,
               },
             },
           ],
         },
-        Email: {
-          email: email,
-        },
-        Purpose: {
-          select: {
-            name: purpose,
-          },
-        },
-        Message: {
+        Transwords: {
           rich_text: [
             {
               text: {
-                content: message,
+                content: transwords,
+              },
+            },
+          ],
+        },
+        EditedPerson: {
+          rich_text: [
+            {
+              text: {
+                content: editedperson,
               },
             },
           ],
