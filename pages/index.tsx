@@ -1,5 +1,6 @@
 // For handling input states
 import React, { useState } from 'react'
+import axios from 'axios'
 
 // For display toasts  
 import { ToastContainer, toast } from 'react-toastify'
@@ -10,24 +11,22 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
   // Input states
-  const [words, setWords] = useState('');
-  const [transwords, setTranswords] = useState('');
-  const [editedperson, setEditedperson] = useState('');
+  const [words, setWords] = useState('')
+  const [transwords, setTranswords] = useState('')
+  const [editedperson, setEditedperson] = useState('')
+
+  const [active, setActive] = useState(false)
+
+  const data = { Words: words, Transwords: transwords, EditedPerson: editedperson}
 
   // Form submit handler
-  const submitForm = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    const res = await fetch('/api/submit-form', {
-      method: 'POST',
-      body: JSON.stringify({ words, transwords, editedperson }),
-    });
-    // Success if status code is 201
-    if (res.status === 201) {
-      toast('Thank you for contacting us!', { type: 'success' });
-    } else {
-      toast('Please re-check your inputs.', { type: 'error' });
+  const submitForm = async () => {
+
+    if (!active) {
+      axios.post(`/api/submit-form`, data)
+      setActive(true)
     }
-  };
+  }
 
   return (
     <div className={styles.container}>
@@ -64,7 +63,7 @@ export default function Home() {
           <input
             type="text"
             name="editedperson"
-            placeholder="Jon Cooper"
+            placeholder="John Cooper"
             value={editedperson}
             onChange={(e) => setEditedperson(e.target.value)}
             required
@@ -77,3 +76,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+

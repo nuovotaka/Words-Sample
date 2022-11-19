@@ -1,19 +1,23 @@
 import { NOTION_API_SECRET, DATABASE_ID } from './server-constants'
-import { Client } from '@notionhq/client';
+import { NextApiRequest, NextApiResponse } from 'next'
+const { Client } = require('@notionhq/client')
 
 const client = new Client({
   auth: NOTION_API_SECRET,
 })
 
-let database_id: any
-export default async function handler(req: { method: string; body: string; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message?: string; msg?: string; }): void; new(): any; }; }; }) {
+const Addform = async function(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res
-      .status(405)
-      .json({ message: `${req.method} requests are not allowed` });
+    res.statusCode = 405
+    res.end()
+    return
   }
+
   try {
-    const { words, transwords, editedperson } = JSON.parse(req.body);
+    const words = req.body.Words
+    const transwords = req.body.Transwords
+    const editedperson = req.body.EditedPerson
+
     await client.pages.create({
       parent: {
         database_id: DATABASE_ID,
@@ -48,8 +52,12 @@ export default async function handler(req: { method: string; body: string; }, re
         },
       },
     });
-    res.status(201).json({ msg: 'Success' });
+    res.statusCode = 201
+    res.end()
   } catch (error) {
-    res.status(500).json({ msg: 'There was an error' });
+    res.statusCode = 500
+    res.end()
   }
 }
+
+export default Addform
