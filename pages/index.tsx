@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-
   // Input states
   const [words, setWords] = useState('')
   const [transwords, setTranswords] = useState('')
@@ -17,19 +16,19 @@ export default function Home() {
 
   const [active, setActive] = useState(false)
 
-  const data = { Words: words, Transwords: transwords, EditedPerson: editedperson}
+  const data = { Words: words, Transwords: transwords, EditedPerson: editedperson }
 
   // Form submit addform
   const submitForm = async () => {
-    try {
-      if (!active) {
+    if (!active) {
+      try {
         axios.post(`/api/submit-form`, data)
         setActive(true)
+        toast.success('Success', { autoClose: 2000 })
+      } catch (error) {
+        console.log(error)
+        toast.error('Error', { autoClose: 2000 })
       }
-      toast.success('Success',{autoClose:2000})
-    } catch (error) {
-      toast.error('Error',{autoClose:2000})
-      console.log(error)
     }
   }
 
@@ -39,12 +38,12 @@ export default function Home() {
       <form className={styles.form} onSubmit={submitForm}>
         <h1 className={styles.title}>Everyone's Words</h1>
         <div>
-          <label htmlFor="words">Words</label>
+          <label htmlFor='words'>Words</label>
           <input
-            type="text"
-            id="words"
-            name="words"
-            placeholder="Words"
+            type='text'
+            id='words'
+            name='words'
+            placeholder='Words'
             value={words}
             onChange={(e) => setWords(e.target.value)}
             required
@@ -52,11 +51,11 @@ export default function Home() {
         </div>
         <div>
           <div>
-            <label htmlFor="Transwords">Trans Words</label>
+            <label htmlFor='Transwords'>Trans Words</label>
             <input
-              type="text"
-              name="transwords"
-              placeholder="言葉"
+              type='text'
+              name='transwords'
+              placeholder='言葉'
               value={transwords}
               onChange={(e) => setTranswords(e.target.value)}
               required
@@ -64,20 +63,20 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <label htmlFor="editedperson">Edited Person</label>
+          <label htmlFor='editedperson'>Edited Person</label>
           <input
-            type="text"
-            name="editedperson"
-            placeholder="John Cooper"
+            type='text'
+            name='editedperson'
+            placeholder='John Cooper'
             value={editedperson}
             onChange={(e) => setEditedperson(e.target.value)}
             required
           />
         </div>
-        <button className={styles.btn} type="submit">
+        <button className={styles.btn} type='submit'>
           Submit
         </button>
       </form>
     </div>
-  );
+  )
 }
