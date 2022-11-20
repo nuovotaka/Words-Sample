@@ -1,8 +1,8 @@
 // For handling input states
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-// For display toasts  
+// For display toasts
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -31,7 +31,6 @@ export default function Home() {
       toast.error('Error',{autoClose:2000})
       console.log(error)
     }
-
   }
 
   return (
@@ -82,6 +81,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
