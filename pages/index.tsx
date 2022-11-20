@@ -1,6 +1,6 @@
 // For handling input states
-import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 // For display toasts
 import { ToastContainer, toast } from 'react-toastify'
