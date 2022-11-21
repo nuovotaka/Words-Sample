@@ -53,7 +53,7 @@ export default function Home() {
     <div className={styles.container}>
       <ToastContainer />
       <form className={styles.form} onSubmit={handleSubmit(submitForm)}>
-        <h1 className={styles.title}>Everyone's Words</h1>
+        <h1 className={styles.title}>Everyone&apos;s Words</h1>
         <div>
           <label htmlFor='words'>Words</label>
           <input
