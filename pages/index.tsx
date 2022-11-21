@@ -32,10 +32,6 @@ export default function Home() {
     resolver: yupResolver(schema),
   })
 
-  const resetTextValue = () => {
-    reset()
-  }
-
   // Form submit addform
   const submitForm: SubmitHandler<FormValues> = async (data: any) => {
     try {
