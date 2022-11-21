@@ -14,9 +14,9 @@ const Addform = async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const words = req.body.Words
-    const transwords = req.body.Transwords
-    const editedperson = req.body.EditedPerson
+    const words = req.body.words
+    const transwords = req.body.transwords
+    const editedperson = req.body.editedperson
 
     await client.pages.create({
       parent: {

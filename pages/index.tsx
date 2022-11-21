@@ -1,81 +1,105 @@
 // For handling input states
+import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { ToastContainer, toast } from 'react-toastify'
+import * as yup from 'yup'
 
 // For display toasts
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
-
 import styles from '../styles/Home.module.css'
 
+type FormValues = {
+  words: string
+  transwords: string
+  editedperson: string
+}
+
+const schema = yup.object({
+  words: yup.string().required('入力必須項目です。'),
+  transwords: yup.string().required('入力必須項目です。'),
+  editedperson: yup.string().required('入力必須項目です。'),
+})
+
 export default function Home() {
-  // Input states
-  const [words, setWords] = useState('')
-  const [transwords, setTranswords] = useState('')
-  const [editedperson, setEditedperson] = useState('')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+  })
 
-  const [active, setActive] = useState(false)
-
-  const data = { Words: words, Transwords: transwords, EditedPerson: editedperson }
+  const resetTextValue = () => {
+    reset()
+  }
 
   // Form submit addform
-  const submitForm = async () => {
-    if (!active) {
-      try {
-        axios.post(`/api/submit-form`, data)
-        setActive(true)
-        toast.success('Success', { autoClose: 5000 })
-      } catch (error) {
-        console.log(error)
-        toast.error('Error', { autoClose: 5000 })
-      }
+  const submitForm: SubmitHandler<FormValues> = async (data: any) => {
+    try {
+      await axios.post(`/api/submit-form`, data).then((res) => {
+        if (res.status === 201) {
+          toast.success('Success', { autoClose: 5000 })
+        } else {
+          toast.error('Error', { autoClose: 5000 })
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      toast.error('Error', { autoClose: 5000 })
     }
+    reset()
   }
 
   return (
     <div className={styles.container}>
       <ToastContainer />
-      <form className={styles.form} onSubmit={submitForm}>
+      <form className={styles.form} onSubmit={handleSubmit(submitForm)}>
         <h1 className={styles.title}>Everyone's Words</h1>
         <div>
           <label htmlFor='words'>Words</label>
           <input
             type='text'
             id='words'
-            name='words'
             placeholder='Words'
-            value={words}
-            onChange={(e) => setWords(e.target.value)}
-            required
+            {...register('words', {
+              required: true,
+            })}
           />
+          {errors.words && <p>{errors.words?.message}</p>}
         </div>
         <div>
           <div>
             <label htmlFor='Transwords'>Trans Words</label>
             <input
               type='text'
-              name='transwords'
+              id='transwords'
               placeholder='言葉'
-              value={transwords}
-              onChange={(e) => setTranswords(e.target.value)}
-              required
+              {...register('transwords', {
+                required: true,
+              })}
             />
+            {errors.transwords && <p>{errors.transwords?.message}</p>}
           </div>
         </div>
         <div>
           <label htmlFor='editedperson'>Edited Person</label>
           <input
             type='text'
-            name='editedperson'
+            id='editedperson'
             placeholder='John Cooper'
-            value={editedperson}
-            onChange={(e) => setEditedperson(e.target.value)}
-            required
+            {...register('editedperson', {
+              required: true,
+            })}
           />
+          {errors.editedperson && <p>{errors.editedperson?.message}</p>}
         </div>
         <button className={styles.btn} type='submit'>
           Submit
         </button>
+        {isSubmitting && <span>Submitting...</span>}
       </form>
     </div>
   )
