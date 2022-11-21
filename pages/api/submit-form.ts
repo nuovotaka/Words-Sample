@@ -1,12 +1,12 @@
-import { NOTION_API_SECRET, DATABASE_ID } from './server-constants'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { NOTION_API_SECRET, DATABASE_ID } from './server-constants'
 const { Client } = require('@notionhq/client')
 
 const client = new Client({
   auth: NOTION_API_SECRET,
 })
 
-const Addform = async function(req: NextApiRequest, res: NextApiResponse) {
+const Addform = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.statusCode = 405
     res.end()
@@ -51,7 +51,7 @@ const Addform = async function(req: NextApiRequest, res: NextApiResponse) {
           ],
         },
       },
-    });
+    })
     res.statusCode = 201
     res.end()
   } catch (error) {

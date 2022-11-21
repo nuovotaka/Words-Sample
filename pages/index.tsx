@@ -22,9 +22,14 @@ export default function Home() {
   const submitForm = async () => {
     if (!active) {
       try {
-        axios.post(`/api/submit-form`, data)
-        setActive(true)
-        toast.success('Success', { autoClose: 2000 })
+        axios.post(`/api/submit-form`, data).then(function (res) {
+          if (res.status === 201) {
+            setActive(true)
+            toast.success('Success', { autoClose: 2000 })
+          } else {
+            toast.error('Error', { autoClose: 2000 })
+          }
+        })
       } catch (error) {
         console.log(error)
         toast.error('Error', { autoClose: 2000 })
