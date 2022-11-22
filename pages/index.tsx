@@ -94,6 +94,7 @@ export default function Home() {
             placeholder='https://www.google.com/'
             {...register('referenceurl', {
               required: true,
+              pattern: /https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/,
             })}
           />
           {errors.referenceurl && <p>{errors.referenceurl?.message}</p>}
