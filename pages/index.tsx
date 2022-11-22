@@ -13,12 +13,14 @@ import styles from '../styles/Home.module.css'
 type FormValues = {
   words: string
   transwords: string
+  referenceurl: string
   editedperson: string
 }
 
 const schema = yup.object({
   words: yup.string().required('入力必須項目です。'),
   transwords: yup.string().required('入力必須項目です。'),
+  referenceurl: yup.string().url().required('入力必須項目です'),
   editedperson: yup.string().required('入力必須項目です。'),
 })
 
@@ -30,10 +32,14 @@ export default function Home() {
     reset,
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      referenceurl: 'https://',
+    },
   })
 
   // Form submit addform
   const submitForm: SubmitHandler<FormValues> = async (data: any) => {
+    console.log(data)
     try {
       await axios.post(`/api/submit-form`, data).then((res) => {
         if (res.status === 201) {
@@ -79,6 +85,18 @@ export default function Home() {
             />
             {errors.transwords && <p>{errors.transwords?.message}</p>}
           </div>
+        </div>
+        <div>
+          <label htmlFor='referenceurl'>Reference URL</label>
+          <input
+            type='url'
+            id='referenceurl'
+            placeholder='https://www.google.com/'
+            {...register('referenceurl', {
+              required: true,
+            })}
+          />
+          {errors.referenceurl && <p>{errors.referenceurl?.message}</p>}
         </div>
         <div>
           <label htmlFor='editedperson'>Edited Person</label>
