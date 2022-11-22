@@ -15,6 +15,7 @@ type FormValues = {
   transwords: string
   referenceurl: string
   editedperson: string
+  notes: string
 }
 
 const schema = yup.object({
@@ -22,6 +23,7 @@ const schema = yup.object({
   transwords: yup.string().required('入力必須項目です。'),
   referenceurl: yup.string().url().required('入力必須項目です'),
   editedperson: yup.string().required('入力必須項目です。'),
+  notes: yup.string(),
 })
 
 export default function Home() {
@@ -39,7 +41,6 @@ export default function Home() {
 
   // Form submit addform
   const submitForm: SubmitHandler<FormValues> = async (data: any) => {
-    console.log(data)
     try {
       await axios.post(`/api/submit-form`, data).then((res) => {
         if (res.status === 201) {
@@ -110,6 +111,11 @@ export default function Home() {
             })}
           />
           {errors.editedperson && <p>{errors.editedperson?.message}</p>}
+        </div>
+        <div>
+          <label htmlFor='notes'>Notes</label>
+          <textarea id='notes' rows={5} cols={40} placeholder='Notes' {...register('notes')} />
+          {errors.notes && <p>{errors.notes?.message}</p>}
         </div>
         <button className={styles.btn} type='submit'>
           Submit

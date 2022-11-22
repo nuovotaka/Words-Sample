@@ -18,6 +18,7 @@ const Addform = async function (req: NextApiRequest, res: NextApiResponse) {
     const transwords = req.body.transwords
     const editedperson = req.body.editedperson
     const referenceurl = req.body.referenceurl
+    const notes = req.body.notes
 
     await client.pages.create({
       parent: {
@@ -50,6 +51,15 @@ const Addform = async function (req: NextApiRequest, res: NextApiResponse) {
             {
               text: {
                 content: editedperson,
+              },
+            },
+          ],
+        },
+        Notes: {
+          rich_text: [
+            {
+              text: {
+                content: notes,
               },
             },
           ],
